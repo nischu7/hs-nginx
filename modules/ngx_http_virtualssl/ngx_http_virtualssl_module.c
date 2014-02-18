@@ -153,10 +153,12 @@ ngx_http_virtualssl_SSL_CTX_use_PrivateKey_buffer(SSL_CTX* ctx, char* buffer)
     return (ret == 0) ? NGX_OK : NGX_ERROR;
 }
 
+//ngx_http_virtualssl_handle_sni(ngx_ssl_conn_t *ssl_conn, u_char *host, size_t len)
 int
-ngx_http_virtualssl_handle_sni(ngx_ssl_conn_t *ssl_conn, u_char *host, size_t len)
+ngx_http_virtualssl_handle_sni(ngx_connection_t* c, ngx_str_t* host)
 {
-    ngx_connection_t           *c;
+    //ngx_connection_t           *c;
+    ngx_ssl_conn_t              *ssl_conn;
     ngx_http_request_t         *r;
     ngx_http_ssl_srv_conf_t    *sscf;
     ngx_ssl_t                  *ssl;
@@ -169,7 +171,8 @@ ngx_http_virtualssl_handle_sni(ngx_ssl_conn_t *ssl_conn, u_char *host, size_t le
     char                       *buf;
     u_char                      key_material_lookup_key[32];
 
-    c = ngx_ssl_get_connection(ssl_conn);
+    //c = ngx_ssl_get_connection(ssl_conn);
+    ssl_conn = c->ssl;
     r = c->data;
 
     hscf = ngx_http_get_module_main_conf(r, ngx_http_hs_module);
@@ -180,9 +183,9 @@ ngx_http_virtualssl_handle_sni(ngx_ssl_conn_t *ssl_conn, u_char *host, size_t le
     }
 
     ngx_log_debug1(NGX_LOG_DEBUG_HTTP, c->log, 0,
-                   "[virtualssl] SSL server name: \"%s\"", host);
+                   "[virtualssl] SSL server name: \"%s\"", host->data);
 
-    route = (hs_route_t*)tcbdbget(hscf->tcb_route_db, host, len, &tcb_s);
+    route = (hs_route_t*)tcbdbget(hscf->tcb_route_db, host->data, host->len, &tcb_s);
     if (route == NULL) {
         ngx_ssl_error(NGX_LOG_EMERG, c->log, 0, "virtualssl: unknown route");
         return SSL_TLSEXT_ERR_NOACK;

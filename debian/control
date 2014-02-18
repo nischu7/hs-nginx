@@ -2,12 +2,12 @@ Source: hs-nginx
 Section: httpd
 Priority: optional
 Maintainer: HostingStack Maintainers <maintainers@hostingstack.com>
-Build-Depends: debhelper (>= 7), autotools-dev, libssl-dev, libpcre3-dev, libthrift-dev, libtokyocabinet-dev, zlib1g-dev, quilt
+Build-Depends: debhelper (>= 7), autotools-dev, libssl-dev, libpcre3-dev, libtokyocabinet-dev, zlib1g-dev, quilt
 Standards-Version: 3.9.1
 
 Package: hs-httpgateway
 Architecture: any
-Depends: ${misc:Depends}, ${shlibs:Depends}, hs-agent (>= 0.0.2)
+Depends: ${misc:Depends}, ${shlibs:Depends}
 Description: HostingStack HTTP Request Router
  HostingStack HTTP Request Router
 

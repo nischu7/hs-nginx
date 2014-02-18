@@ -53,10 +53,10 @@ index 0bb1b8c..02e18f9 100644
      }
  
 +#if (NGX_HTTP_VIRTUALSSL)
-+    ret = ngx_http_virtualssl_handle_sni(ssl_conn, host, len);
++    ret = ngx_http_virtualssl_handle_sni(c, &host);
 +     if (ret != SSL_TLSEXT_ERR_NOACK)
 +         return ret;
-++#endif
++#endif
 +
      hc = c->data;
  

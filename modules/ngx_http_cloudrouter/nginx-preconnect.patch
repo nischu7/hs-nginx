@@ -69,14 +69,14 @@ index 26b5764..e382280 100644
      ngx_http_upstream_send_request(r, u);
  }
  
-+static void
++void
 +ngx_http_upstream_connect(ngx_http_request_t *r, ngx_http_upstream_t *u)
 +{
 +    ngx_time_t  *tp;
 +    // from previous upstream_connect
 +    r->connection->log->action = "connecting to upstream";
 +
-+    r->connection->single_connection = 0;
++    //r->connection->single_connection = 0;
 +
 +    if (u->state && u->state->response_sec) {
 +        tp = ngx_timeofday();
@@ -108,6 +108,15 @@ index 26b5764..e382280 100644
  
  #if (NGX_HTTP_SSL)
  
+@@ -3264,7 +3281,7 @@ ngx_http_upstream_dummy_handler(ngx_http_request_t *r, ngx_http_upstream_t *u)
+ }
+ 
+ 
+-static void
++void
+ ngx_http_upstream_next(ngx_http_request_t *r, ngx_http_upstream_t *u,
+     ngx_uint_t ft_type)
+ {
 diff --git a/src/http/ngx_http_upstream.h b/src/http/ngx_http_upstream.h
 index 9f96c50..1589c4e 100644
 --- a/src/http/ngx_http_upstream.h
