@@ -2,10 +2,9 @@
 
 CFLAGS = -Wall -g
 
-FLAVOURS:=hs-httpgateway hs-archive
+FLAVOURS:=hs-httpgateway
 
 BUILDDIR_hs-httpgateway = $(CURDIR)/debian/build-hs-httpgateway
-BUILDDIR_hs-archive = $(CURDIR)/debian/build-hs-archive
 MODULESDIR = $(CURDIR)/modules
 BASEDIR = $(CURDIR)
 
@@ -58,35 +57,6 @@ config.status.hs-httpgateway: config.env.hs-httpgateway
             $(CONFIGURE_OPTS) >$@
 	touch $@
 
-config.status.hs-archive: config.env.hs-archive
-	cd $(BUILDDIR_hs-archive) && ./configure \
-	    --conf-path=/etc/hs/archive/hs-archive.conf \
-	    --error-log-path=/var/log/hs-archive/error.log \
-	    --http-client-body-temp-path=/var/lib/hs/archive/body \
-	    --http-fastcgi-temp-path=/var/lib/hs/archive/fastcgi \
-	    --http-log-path=/var/log/hs-archive/access.log \
-	    --http-proxy-temp-path=/var/lib/hs/archive/proxy \
-	    --lock-path=/var/lock/hs-archive.lock \
-	    --pid-path=/var/run/hs-archive.pid \
-	    --with-http_gzip_static_module \
-	    --with-http_ssl_module \
-	    --with-http_dav_module \
-	    --with-ipv6 \
-	    --without-http_browser_module \
-	    --without-http_geo_module \
-	    --without-http_limit_req_module \
-	    --without-http_limit_zone_module \
-	    --without-http_map_module \
-	    --without-http_memcached_module \
-	    --without-http_referer_module \
-	    --without-http_scgi_module \
-	    --without-http_split_clients_module \
-	    --without-http_ssi_module \
-	    --without-http_userid_module \
-	    --without-http_uwsgi_module \
-            $(CONFIGURE_OPTS) >$@
-	touch $@
-
 config.status.%:
 	echo "configuration for flavour $* not yet defined."
 
@@ -130,7 +100,6 @@ binary-arch: install build-dbg
 	dh_installinit -r --no-start -a
 	dh_installlogrotate -a
 	dh_strip --package=hs-httpgateway --dbg-package=hs-httpgateway-dbg
-	dh_strip --package=hs-archive --dbg-package=hs-archive-dbg
 	dh_link -aA
 	dh_lintian -a
 	dh_compress -a

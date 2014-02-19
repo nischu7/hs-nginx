@@ -18,17 +18,3 @@ Priority: extra
 Depends: ${misc:Depends}, hs-httpgateway (= ${binary:Version})
 Description: Debugging symbols for hs-httpgateway
  .
-
-Package: hs-archive
-Architecture: any
-Depends: ${misc:Depends}, ${shlibs:Depends}
-Description: HostingStack Archiving Server
- HostingStack Archiving Server
-
-Package: hs-archive-dbg
-Architecture: any
-Section: debug
-Priority: extra
-Depends: ${misc:Depends}, hs-archive (= ${binary:Version})
-Description: Debugging symbols for hs-archive
- .
